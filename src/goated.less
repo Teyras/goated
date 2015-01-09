@@ -1,0 +1,102 @@
+.goated {
+	&-block {
+		.panel;
+		.panel-default;
+		
+		margin-bottom: @line-height-computed / 2;
+		
+		.move {
+			.glyphicon;
+			.glyphicon-move;
+			
+			cursor: move;
+		}
+		
+		.delete {
+			.glyphicon;
+			.glyphicon-trash;
+			
+			cursor: pointer;
+		}
+		
+		.config {
+			.glyphicon;
+			.glyphicon-cog;
+			
+			cursor: pointer;
+		}
+		
+		.bold {
+			.glyphicon;
+			.glyphicon-bold;
+			.btn;
+			.btn-default;
+			.btn-sm;
+		}
+		
+		.italic {
+			.glyphicon;
+			.glyphicon-italic;
+			.btn;
+			.btn-default;
+			.btn-sm;
+		}
+		
+		.link {
+			.glyphicon;
+			.glyphicon-link;
+			.btn;
+			.btn-default;
+			.btn-sm;
+		}
+		
+		.unlink {
+			.link;
+			text-decoration: line-through;
+		}
+		
+		.content {
+			.panel-body;
+			
+			h1, .h1, h2, .h2, h3, .h3 {
+				margin: 0;
+			}
+		}
+		
+		.controls {
+			.panel-footer;
+			text-align: right;
+		}
+	}
+
+	&-controls {
+		.block-text {
+			.glyphicon;
+			.glyphicon-pencil;
+		}
+		
+		.block-heading {
+			.glyphicon;
+			.glyphicon-pushpin;
+		}
+		
+		.block-list {
+			.glyphicon;
+			.glyphicon-list;
+		}
+		
+		.block-image {
+			.glyphicon;
+			.glyphicon-picture;
+		}
+		
+		.add-block {
+			.glyphicon;
+			.glyphicon-plus;
+		}
+	}
+	
+	&-placeholder {
+		.well;
+	}
+}

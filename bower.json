@@ -1,0 +1,19 @@
+{
+  "name": "goated",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Teyras/goated",
+  "authors": [
+    "Teyras <teyras@gmail.com>"
+  ],
+  "description": "A block based web content editor",
+  "keywords": [
+    "web",
+    "editor"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "~3.3.1",
+    "jquery": "~2.1.1",
+    "jquery-ui": "~1.11.2"
+  }
+}
