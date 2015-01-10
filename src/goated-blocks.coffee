@@ -5,7 +5,7 @@ class G.TextBlock extends G.BaseBlock
 		data.content ?= 'Text'
 		content = @parent.srcToHtml(data.content)
 		
-		@editor = $ '<div contenteditable="true">'
+		@editor = $('<div contenteditable="true">')
 			.html(content)
 		
 		bar = new G.FormatBar(@editor, @parent.formatters)

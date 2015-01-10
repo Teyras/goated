@@ -21,9 +21,9 @@ class G.Editor
 			@serialize()
 	
 	makeContainer: ->
-		container = $ '<div class="goated-container">'
+		container = $('<div class="goated-container">')
 		
-		@blockList = $ '<div class="goated-blocks">'
+		@blockList = $('<div class="goated-blocks">')
 			.appendTo container
 		
 		@blockList.sortable
@@ -31,7 +31,7 @@ class G.Editor
 			placeholder: 'goated-placeholder'
 			start: => @closeConfig()
 		
-		@controls = $ '<div class="goated-controls">'
+		@controls = $('<div class="goated-controls">')
 			.appendTo container
 		
 		blockMenu = $ '<ul class="blockMenu dropdown-menu" role="menu">'
@@ -39,21 +39,21 @@ class G.Editor
 		for block in @blocks then do (block) =>
 			blockMenu.append(
 				$('<li>').append(
-					$ '<a href="#">'
-						.append $ "<span class='#{block.prototype.icon}'></span>"
-						.append " #{block.prototype.title}"
+					$('<a href="#">')
+						.append($ "<span class='#{block.prototype.icon}'></span>")
+						.append(" #{block.prototype.title}")
 						.on 'click', (e) =>
 							e.preventDefault()
 							@addBlock new block(this)
 				)
 			)
 		
-		$ '<div class="btn-group addBlock">'
+		$('<div class="btn-group addBlock">')
 			.append(
-				$ '<button type="button" data-toggle="dropdown">'
-					.attr 'class', 'dropdown-toggle btn btn-default'
-					.html '<span class="add-block"></span> Add block'
-			).append blockMenu
+				$('<button type="button" data-toggle="dropdown">')
+					.attr('class', 'dropdown-toggle btn btn-default')
+					.html('<span class="add-block"></span> Add block')
+			).append(blockMenu)
 			.appendTo @controls
 		
 		container.insertAfter @element
@@ -65,7 +65,7 @@ class G.Editor
 		@activeConfig =
 			block: block
 			config: config
-			element: $ '<div class="config-container">'
+			element: $('<div class="config-container">')
 				.append config
 		
 		block.element.replaceWith @activeConfig.element
@@ -82,8 +82,8 @@ class G.Editor
 		@blockObjects.push block
 		
 		content = $ '<div class="content">'
-		controls = $ '<div class="controls">'
-			.append($ '<span class="delete">'
+		controls = $('<div class="controls">')
+			.append($('<span class="delete">')
 				.on 'click', (e) =>
 					e.preventDefault()
 					$(e.target).closest('.goated-block').remove()
@@ -91,10 +91,10 @@ class G.Editor
 			)
 			.append($ '<span class="move">')
 		
-		element = $ '<div class="goated-block">'
-			.append content.append(block.element)
-			.append controls
-			.appendTo @blockList
+		element = $('<div class="goated-block">')
+			.append(content.append(block.element))
+			.append(controls)
+			.appendTo(@blockList)
 		
 		if block.getConfig?
 			configBtn = $ '<span class="config">'
@@ -145,27 +145,27 @@ class G.BaseFormatter
 
 class G.FormatBar
 	constructor: (@editor, formatters) ->
-		arrow = $ '<div class="arrow">'
+		arrow = $('<div class="arrow">')
 			.css left: '50%'
 		content = $ '<div class="popover-content">'
 		
 		for formatter in formatters then do (formatter) ->
-			content.append($ "<a class='#{formatter.icon}' href='#'>"
+			content.append($("<a class='#{formatter.icon}' href='#'>")
 				.on 'click', (e) ->
 					e.preventDefault()
 					formatter.apply()
 			)
 		
-		@bar = $ '<div class="format-bar popover top">'
-			.css position: 'absolute'
-			.append arrow
-			.append content
+		@bar = $('<div class="format-bar popover top">')
+			.css(position: 'absolute')
+			.append(arrow)
+			.append(content)
 			.hide()
 		
-		@element = $ '<div>'
-			.css position: 'relative'
-			.append @bar
-			.append @editor
+		@element = $('<div>')
+			.css(position: 'relative')
+			.append(@bar)
+			.append(@editor)
 		
 		@editor.on 'keyup mouseup mousedown', (e) =>
 			selection = window.getSelection?()
