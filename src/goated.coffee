@@ -120,6 +120,12 @@ class G.Editor
 			controls.prepend configBtn
 	
 	serialize: ->
+		@blockObjects.sort (a, b) =>
+			items = @blockList.find '.goated-block'
+			first = a.element.closest '.goated-block'
+			second = b.element.closest '.goated-block'
+			return items.index(first) - items.index(second)
+		
 		result = for block in @blockObjects when block not in @deletedBlocks
 			type: block.constructor.type
 			data: block.getContent()
