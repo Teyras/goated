@@ -10,7 +10,17 @@ class G.Editor
 		@blockObjects = []
 		@deletedBlocks = []
 		
-		for item in JSON.parse(@element.val() or '[]')
+		defaultBlocks =
+		try
+			JSON.parse(@element.val() or '[]')
+		catch error
+			[{
+				type: 'goated-text'
+				data:
+					content: @element.val()
+			}]
+		
+		for item in defaultBlocks
 			for block in @blocks
 				if block.type == item.type
 					@addBlock new block(this, item.data)
