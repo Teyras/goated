@@ -114,5 +114,24 @@ class G.ImageBlock extends G.BaseBlock
 		align: @align
 		content: @src
 	getConfig: ->
-		$('<div>')
+		select = $('<select>')
+			.append($('<option name="block">').text("Block"))
+			.append($('<option name="left">').text("Align left"))
+			.append($('<option name="right">').text("Align right"))
+		select.val select.find("option[name='#{@align}']").text()
+		
+		src = $('<input type="text" name="src">')
+			.val @src
+		
+		$('<div>').append($('<div class="config-item">')
+			.append($('<label>').text('Alignment'))
+			.append($('<div class="config-control">').append select)
+		).append($('<div class="config-item">')
+			.append($('<label>').text('URL'))
+			.append($('<div class="config-control">').append src)
+		)
+	saveConfig: (config) ->
+		@align = config.find('select option:selected').attr('name')
+		@src = config.find('input[name="src"]').val()
+		@element.attr('src', @src)
 
