@@ -106,7 +106,9 @@ class G.ImageBlock extends G.BaseBlock
 		@align = data.align ?= 'block'
 		@src = data.src ?= ''
 		@full = data.full ?= ''
-		@element = $('<img>').attr('src', @src)
+		
+		@element = $('<img>')
+		@setupElement()
 	@type: 'goated-image'
 	title: 'Image'
 	icon: 'block-image'
@@ -142,5 +144,12 @@ class G.ImageBlock extends G.BaseBlock
 		@src = config.find('input[name="src"]').val()
 		@full = config.find('input[name="full"]').val()
 		
+		@setupElement()
+	setupElement: ->
 		@element.attr('src', @src)
+		
+		if not @src
+			@element.hide()
+		else
+			@element.show()
 
