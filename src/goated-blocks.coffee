@@ -104,15 +104,16 @@ class G.ListBlock extends G.BaseBlock
 class G.ImageBlock extends G.BaseBlock
 	constructor: (@parent, data = {}) ->
 		@align = data.align ?= 'block'
-		@src = data.content ?= ''
-		@element = $('<img>')
-		@element.attr('src', @src)
+		@src = data.src ?= ''
+		@full = data.full ?= ''
+		@element = $('<img>').attr('src', @src)
 	@type: 'goated-image'
 	title: 'Image'
 	icon: 'block-image'
 	getContent: ->
 		align: @align
-		content: @src
+		src: @src
+		full: @full
 	getConfig: ->
 		select = $('<select>')
 			.append($('<option name="block">').text("Block"))
@@ -123,15 +124,23 @@ class G.ImageBlock extends G.BaseBlock
 		src = $('<input type="text" name="src">')
 			.val @src
 		
+		full = $('<input type="text" name="full">')
+			.val @full
+		
 		$('<div>').append($('<div class="config-item">')
 			.append($('<label>').text('Alignment'))
 			.append($('<div class="config-control">').append select)
 		).append($('<div class="config-item">')
 			.append($('<label>').text('URL'))
 			.append($('<div class="config-control">').append src)
+		).append($('<div class="config-item">')
+			.append($('<label>').text('Full size URL'))
+			.append($('<div class="config-control">').append full)
 		)
 	saveConfig: (config) ->
 		@align = config.find('select option:selected').attr('name')
 		@src = config.find('input[name="src"]').val()
+		@full = config.find('input[name="full"]').val()
+		
 		@element.attr('src', @src)
 
