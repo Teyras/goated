@@ -2,8 +2,9 @@ G = window.Goated ?= {}
 
 class G.Editor
 	constructor: (@element, options) ->
-		{@blocks, @formatters} = options
-
+		{@blocks, @formatters, @urls} = options
+		@urls ?= {}
+		
 		@element.hide()
 		@makeContainer()
 		@activeConfig = null

@@ -12,8 +12,9 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "bootstrap": "~3.3.1",
-    "jquery": "~2.1.1",
-    "jquery-ui": "~1.11.2"
+    "bootstrap": ">=3.3.1",
+    "jquery": ">=2.1.1",
+    "jquery-ui": ">=1.11.2",
+    "blueimp-file-upload": ">=9.8.0"
   }
 }

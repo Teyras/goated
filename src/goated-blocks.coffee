@@ -129,7 +129,7 @@ class G.ImageBlock extends G.BaseBlock
 		full = $('<input type="text" name="full">')
 			.val @full
 		
-		$('<div>').append($('<div class="config-item">')
+		config = $('<div>').append($('<div class="config-item">')
 			.append($('<label>').text('Alignment'))
 			.append($('<div class="config-control">').append select)
 		).append($('<div class="config-item">')
@@ -139,6 +139,24 @@ class G.ImageBlock extends G.BaseBlock
 			.append($('<label>').text('Full size URL'))
 			.append($('<div class="config-control">').append full)
 		)
+		
+		if @parent.urls.imageUpload
+			upload = $('<div>').html("Drop file to upload")
+			upload.fileupload(
+				url: @parent.urls.imageUpload
+				dataType: 'json'
+				autoUpload: true
+				dropZone: upload
+				disableImagePreview: true
+			).bind('fileuploaddone', (e, data) =>
+				config.find('input[name="src"]').val(data.result.thumbnail)
+				config.find('input[name="full"]').val(data.result.full)
+				@parent.closeConfig()
+			)
+			
+			config.append upload
+		
+		return config
 	saveConfig: (config) ->
 		@align = config.find('select option:selected').attr('name')
 		@src = config.find('input[name="src"]').val()
