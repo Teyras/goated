@@ -67,6 +67,11 @@
 			.panel-footer;
 			text-align: right;
 		}
+		
+		.upload-area {
+			.well;
+			.well-lg;
+		}
 	}
 
 	&-controls {
@@ -98,5 +103,38 @@
 	
 	&-placeholder {
 		.well;
+	}
+	
+	&-config-container {
+		.config-item {
+			.make-row();
+			
+			margin-bottom: 15px;
+			vertical-align: middle;
+			
+			label {
+				.make-sm-column(2);
+			}
+			
+			@media (min-width: @screen-sm-min) {
+				label {
+					text-align: right;
+					margin-bottom: 0;
+					padding-top: (@padding-base-vertical + 1);
+				}
+			}
+			
+			.config-control {
+				.make-sm-column(10);
+				
+				input, select {
+					.form-control;
+				}
+			}
+		}
+		
+		.upload-area {
+			margin: @line-height-computed / 2 0;
+		}
 	}
 }

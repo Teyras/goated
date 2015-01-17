@@ -84,12 +84,12 @@ class G.ListBlock extends G.BaseBlock
 		
 		return (new G.FormatBar(item, @parent.formatters)).element
 	getConfig: ->
-		checkbox = $('<input type="checkbox">').prop('checked', @ordered)
+		checkbox = $('<input type="checkbox" class="checkbox">').prop('checked', @ordered)
 		
 		$('<div class="config-item">')
 			.append($('<label>').text('Ordered'))
 			.append(
-				$('<div class="config-control">')
+				$('<div>')
 					.append checkbox
 			)
 	saveConfig: (config) ->
@@ -141,7 +141,9 @@ class G.ImageBlock extends G.BaseBlock
 		)
 		
 		if @parent.urls.imageUpload
-			upload = $('<div>').html("Drop file to upload")
+			upload = $('<div>')
+				.attr(class: 'upload-area')
+				.html("Drop file to upload")
 			upload.fileupload(
 				url: @parent.urls.imageUpload
 				dataType: 'json'

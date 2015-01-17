@@ -76,7 +76,7 @@ class G.Editor
 		@activeConfig =
 			block: block
 			config: config
-			element: $('<div class="config-container">')
+			element: $('<div class="goated-config-container">')
 				.append config
 		
 		block.element.replaceWith @activeConfig.element
