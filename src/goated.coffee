@@ -1,9 +1,13 @@
 G = window.Goated ?= {}
+G.locale ?= {}
 
 class G.Editor
 	constructor: (@element, options) ->
-		{@blocks, @formatters, @urls} = options
+		{@blocks, @formatters, @urls, @locale} = options
 		@urls ?= {}
+		@locale ?= 'en'
+		
+		@tr = G.Translator G.locale[@locale]
 		
 		@element.hide()
 		@makeContainer()
@@ -52,7 +56,7 @@ class G.Editor
 				$('<li>').append(
 					$('<a href="#">')
 						.append($ "<span class='#{block.prototype.icon}'></span>")
-						.append(" #{block.prototype.title}")
+						.append(" " + @tr "blocks.#{block.type}.title")
 						.on 'click', (e) =>
 							e.preventDefault()
 							@addBlock new block(this)
@@ -63,7 +67,7 @@ class G.Editor
 			.append(
 				$('<button type="button" data-toggle="dropdown">')
 					.attr('class', 'dropdown-toggle btn btn-default')
-					.html('<span class="add-block"></span> Add block')
+					.append($('<span class="add-block"></span>').html(" " + @tr 'addBlock'))
 			).append(blockMenu)
 			.appendTo @controls
 		
@@ -146,12 +150,28 @@ class G.Editor
 	clearHtml: (html) ->
 		return html.replace(/<br ?\/?>/g, '')
 
+G.Translator = (dictionary) ->
+	dictionary ?= {}
+	
+	return (message) ->
+		data = dictionary
+		
+		for part in message.split('.')
+			if data[part]?
+				data = data[part]
+		
+		if data? and typeof data != 'object'
+			return data
+		else
+			return message
 
 class G.BaseBlock
 	title: 'Untitled block'
 	icon: 'block-untitled'
 	element: $ '<div>'
 	getContent: ->
+	constructor: (parent, data = {}) ->
+		@tr = G.Translator G.locale[parent.locale]?.blocks[@constructor.type]
 
 class G.BaseFormatter
 	@title: 'Untitled formatter'

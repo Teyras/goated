@@ -2,7 +2,9 @@ G = window.Goated ?= {}
 
 class G.TextBlock extends G.BaseBlock
 	constructor: (@parent, data = {}) ->
-		data.content ?= 'Text'
+		super @parent, data
+		
+		data.content ?= @tr 'placeholder'
 		content = @parent.srcToHtml(data.content)
 		
 		@editor = $('<div contenteditable="true">')
@@ -11,18 +13,18 @@ class G.TextBlock extends G.BaseBlock
 		bar = new G.FormatBar(@editor, @parent.formatters)
 		@element = bar.element
 	@type: 'goated-text'
-	title: 'Text'
 	icon: 'block-text'
 	getContent: ->
 		content: @parent.htmlToSrc(@editor.html())
 
 class G.HeadingBlock extends G.BaseBlock
 	constructor: (@parent, data = {}) ->
+		super @parent, data
+		
 		data.content ?= 'Text'
 		@level = data.level ?= 1
 		@element = $("<h#{@level} contenteditable='true'>").html(data.content)
 	@type: 'goated-heading'
-	title: 'Heading'
 	icon: 'block-heading'
 	getContent: ->
 		level: @level
@@ -34,7 +36,7 @@ class G.HeadingBlock extends G.BaseBlock
 			.append($('<option name=3>').text(3))
 		select.val(@level)
 		$('<div class="config-item">')
-			.append($('<label>').text('Level'))
+			.append($('<label>').text(@tr 'config.level'))
 			.append(
 				$('<div class="config-control">')
 					.append select
@@ -45,13 +47,14 @@ class G.HeadingBlock extends G.BaseBlock
 
 class G.ListBlock extends G.BaseBlock
 	constructor: (@parent, data = {}) ->
+		super @parent, data
+		
 		content = data.content ?= ['']
 		@ordered = data.ordered ?= no
 		@element = if @ordered then $('<ol>') else $('<ul>')
 		for item in content
 			@element.append(@makeItem(@parent.srcToHtml(item)))
 	@type: 'goated-list'
-	title: 'List'
 	icon: 'block-list'
 	getContent: ->
 		ordered: @ordered
@@ -87,7 +90,7 @@ class G.ListBlock extends G.BaseBlock
 		checkbox = $('<input type="checkbox" class="checkbox">').prop('checked', @ordered)
 		
 		$('<div class="config-item">')
-			.append($('<label>').text('Ordered'))
+			.append($('<label>').text(@tr 'config.ordered'))
 			.append(
 				$('<div>')
 					.append checkbox
@@ -103,6 +106,8 @@ class G.ListBlock extends G.BaseBlock
 
 class G.ImageBlock extends G.BaseBlock
 	constructor: (@parent, data = {}) ->
+		super @parent, data
+		
 		@align = data.align ?= 'block'
 		@src = data.src ?= ''
 		@full = data.full ?= ''
@@ -110,7 +115,6 @@ class G.ImageBlock extends G.BaseBlock
 		@element = $('<img>')
 		@setupElement()
 	@type: 'goated-image'
-	title: 'Image'
 	icon: 'block-image'
 	getContent: ->
 		align: @align
@@ -118,9 +122,9 @@ class G.ImageBlock extends G.BaseBlock
 		full: @full
 	getConfig: ->
 		select = $('<select>')
-			.append($('<option name="block">').text("Block"))
-			.append($('<option name="left">').text("Align left"))
-			.append($('<option name="right">').text("Align right"))
+			.append($('<option name="block">').text(@tr 'config.alignBlock'))
+			.append($('<option name="left">').text(@tr 'config.alignLeft'))
+			.append($('<option name="right">').text(@tr 'config.alignRight'))
 		select.val select.find("option[name='#{@align}']").text()
 		
 		src = $('<input type="text" name="src">')
@@ -130,20 +134,20 @@ class G.ImageBlock extends G.BaseBlock
 			.val @full
 		
 		config = $('<div>').append($('<div class="config-item">')
-			.append($('<label>').text('Alignment'))
+			.append($('<label>').text(@tr 'config.align'))
 			.append($('<div class="config-control">').append select)
 		).append($('<div class="config-item">')
-			.append($('<label>').text('URL'))
+			.append($('<label>').text(@tr 'config.url'))
 			.append($('<div class="config-control">').append src)
 		).append($('<div class="config-item">')
-			.append($('<label>').text('Full size URL'))
+			.append($('<label>').text(@tr 'config.full'))
 			.append($('<div class="config-control">').append full)
 		)
 		
 		if @parent.urls.imageUpload
 			upload = $('<div>')
 				.attr(class: 'upload-area')
-				.html("Drop file to upload")
+				.html(@tr 'config.upload')
 			upload.fileupload(
 				url: @parent.urls.imageUpload
 				dataType: 'json'
