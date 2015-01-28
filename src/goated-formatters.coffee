@@ -23,7 +23,7 @@ class G.ItalicFormatter extends G.BaseFormatter
 class G.LinkFormatter extends G.BaseFormatter
 	@icon: 'link'
 	@srcToHtml: (src) ->
-		src.replace /"(.*?)":\[(.*?)\]g/, (m, text, href) ->
+		src.replace /"(.*?)":\[(.*?)\]/g, (m, text, href) ->
 			"<a href='#{href}'>#{text}</a>"
 	@htmlToSrc: (html) ->
 		html.replace /<a.*?href=[""'](.*?)[""'].*?>(.*?)<\/a>/gim, (m, href, text) ->
