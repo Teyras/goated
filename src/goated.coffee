@@ -67,7 +67,8 @@ class G.Editor
 			.append(
 				$('<button type="button" data-toggle="dropdown">')
 					.attr('class', 'dropdown-toggle btn btn-default')
-					.append($('<span class="add-block"></span>').html(" " + @tr 'addBlock'))
+					.append($('<span class="add-block"></span>'))
+					.append(" " + @tr 'addBlock')
 			).append(blockMenu)
 			.appendTo @controls
 		
