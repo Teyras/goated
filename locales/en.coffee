@@ -9,6 +9,7 @@ G.locale.cs =
 			placeholder: 'Text'
 		'goated-heading':
 			title: 'Heading'
+			placeholder: 'Heading'
 			config:
 				level: 'Level'
 		'goated-list':

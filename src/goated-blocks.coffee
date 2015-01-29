@@ -20,7 +20,7 @@ class G.HeadingBlock extends G.BaseBlock
 	constructor: (@parent, data = {}) ->
 		super @parent, data
 		
-		data.content ?= 'Text'
+		data.content ?= @tr 'placeholder'
 		@level = data.level ?= 1
 		@element = $("<h#{@level} contenteditable='true'>").html(data.content)
 	@type: 'goated-heading'

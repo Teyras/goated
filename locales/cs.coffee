@@ -9,6 +9,7 @@ G.locale.cs =
 			placeholder: 'Text'
 		'goated-heading':
 			title: 'Nadpis'
+			placeholder: 'Nadpis'
 			config:
 				level: 'Úroveň'
 		'goated-list':
