@@ -10,8 +10,7 @@ class G.TextBlock extends G.BaseBlock
 		@editor = $('<div contenteditable="true">')
 			.html(content)
 		
-		bar = new G.FormatBar(@editor, @parent.formatters)
-		@element = bar.element
+		@element = @parent.formatBar.bind @editor
 	@type: 'goated-text'
 	icon: 'block-text'
 	getContent: ->
@@ -85,7 +84,7 @@ class G.ListBlock extends G.BaseBlock
 							prev.focus()
 							$(e.target).remove()
 		
-		return (new G.FormatBar(item, @parent.formatters)).element
+		return @parent.formatBar.bind item
 	getConfig: ->
 		checkbox = $('<input type="checkbox" class="checkbox">').prop('checked', @ordered)
 		

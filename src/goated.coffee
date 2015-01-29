@@ -6,6 +6,7 @@ class G.Editor
 		{@blocks, @formatters, @urls, @locale} = options
 		@urls ?= {}
 		@locale ?= 'en'
+		@formatBar = new G.FormatBar(@formatters)
 		
 		@tr = G.Translator G.locale[@locale]
 		
@@ -182,7 +183,7 @@ class G.BaseFormatter
 	@apply: ->
 
 class G.FormatBar
-	constructor: (@editor, formatters) ->
+	constructor: (formatters) ->
 		arrow = $('<div class="arrow">')
 			.css left: '50%'
 		content = $ '<div class="popover-content">'
@@ -200,24 +201,33 @@ class G.FormatBar
 			.append(content)
 			.hide()
 		
-		@element = $('<div>')
-			.css(position: 'relative')
-			.append(@bar)
-			.append(@editor)
+		$(document).on 'click', =>
+			@hide()
+	
+	hide: ->
+		@bar.hide()
+	
+	bind: (element) ->
+		container = $('<div>').css
+			position: 'relative'
 		
-		@editor.on 'keyup mouseup mousedown', (e) =>
+		element.on 'click keyup mouseup mousedown', (e) =>
+			e.stopPropagation()
+			
 			selection = window.getSelection?()
 			if selection.toString?()
 				sBound = selection.getRangeAt(0).getBoundingClientRect()
-				cBound = @element[0].getBoundingClientRect()
+				cBound = element[0].getBoundingClientRect()
+				@bar.detach()
+				@bar.appendTo element.parent()
 				@bar.css(
 					top: sBound.top - @bar.height() - cBound.top
 					left: (sBound.left + sBound.right) / 2 - @bar.width() / 2 - cBound.left
 				).show()
 			else
-				@bar.hide()
-	hide: ->
-		@bar.hide()
+				@hide()
+		
+		return container.append element
 
 $.fn.goated = (options) ->
 	@each ->
