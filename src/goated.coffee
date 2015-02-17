@@ -147,10 +147,21 @@ class G.Editor
 	htmlToSrc: (html) ->
 		for formatter in @formatters
 			html = formatter.htmlToSrc(html)
-		return html.replace(/<br ?\/?>/g, '\n')
+			
+		html = html.replace(/<br ?\/?>/g, '\n')
+		
+		tmp = $('<div>').html(html)
+		tmp.find('style').remove()
+		
+		return tmp.text()
 	
 	clearHtml: (html) ->
-		return html.replace(/<br ?\/?>/g, '')
+		html = html.replace(/<br ?\/?>/g, '')
+		
+		tmp = $('<div>').html(html)
+		tmp.find('style').remove()
+		
+		return tmp.text()
 
 G.Translator = (dictionary) ->
 	dictionary ?= {}
