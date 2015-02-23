@@ -18,7 +18,7 @@ class G.Editor
 		
 		defaultBlocks =
 		try
-			JSON.parse(@element.val() or '[]')
+			JSON.parse(@element.val())
 		catch error
 			[{
 				type: 'goated-text'
