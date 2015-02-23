@@ -4,7 +4,9 @@ class G.TextBlock extends G.BaseBlock
 	constructor: (@parent, data = {}) ->
 		super @parent, data
 		
-		data.content ?= @tr 'placeholder'
+		if !data.content
+			data.content = @tr 'placeholder'
+		
 		content = @parent.srcToHtml(data.content)
 		
 		@editor = $('<div contenteditable="true">')
