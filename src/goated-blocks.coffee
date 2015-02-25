@@ -122,6 +122,7 @@ class G.ImageBlock extends G.BaseBlock
 		align: @align
 		src: @src
 		full: @full
+		sameWindow: @sameWindow
 	getConfig: ->
 		select = $('<select>')
 			.append($('<option name="block">').text(@tr 'config.alignBlock'))
@@ -175,6 +176,7 @@ class G.ImageBlock extends G.BaseBlock
 		@align = config.find('select option:selected').attr('name')
 		@src = config.find('input[name="src"]').val()
 		@full = config.find('input[name="full"]').val()
+		@sameWindow = config.find('input[name="sameWindow"]').prop('checked')
 		
 		@setupElement()
 	setupElement: ->
