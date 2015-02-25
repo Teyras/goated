@@ -25,4 +25,5 @@ G.locale.cs =
 				alignRight: 'Float right'
 				url: 'Thumbnail address'
 				full: 'Full image address'
+				sameWindow: 'Open the full image directly'
 				upload: 'Drag and drop a file to upload it'

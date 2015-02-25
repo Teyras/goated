@@ -112,6 +112,7 @@ class G.ImageBlock extends G.BaseBlock
 		@align = data.align ?= 'block'
 		@src = data.src ?= ''
 		@full = data.full ?= ''
+		@sameWindow = data.sameWindow ?= false
 		
 		@element = $('<img>')
 		@setupElement()
@@ -134,6 +135,9 @@ class G.ImageBlock extends G.BaseBlock
 		full = $('<input type="text" name="full">')
 			.val @full
 		
+		sameWindow = $('<input type="checkbox" name="sameWindow">')
+			.val @sameWindow
+		
 		config = $('<div>').append($('<div class="config-item">')
 			.append($('<label>').text(@tr 'config.align'))
 			.append($('<div class="config-control">').append select)
@@ -143,6 +147,9 @@ class G.ImageBlock extends G.BaseBlock
 		).append($('<div class="config-item">')
 			.append($('<label>').text(@tr 'config.full'))
 			.append($('<div class="config-control">').append full)
+		).append($('<div class="config-item">')
+			.append($('<label>').text(@tr 'config.sameWindow'))
+			.append($('<div class="config-control">').append sameWindow)
 		)
 		
 		if @parent.urls.imageUpload

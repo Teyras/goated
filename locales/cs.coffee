@@ -25,4 +25,5 @@ G.locale.cs =
 				alignRight: 'Obtékat zleva'
 				url: 'Adresa obrázku (zmenšený)'
 				full: 'Adresa obrázku (plná velikost)'
+				sameWindow: 'Otevírat zvětšený obrázek přímo'
 				upload: 'Pokud chcete nahrát soubor, přetáhněte ho sem'
