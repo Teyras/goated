@@ -1,5 +1,12 @@
 G = window.Goated ?= {}
 
+class G.UnknownBlock extends G.BaseBlock
+	constructor: (@parent, @blockType, @data = {}, title) ->
+		super @parent, @data
+		@element.html title
+	getType: -> @blockType
+	getContent: -> @data
+
 class G.TextBlock extends G.BaseBlock
 	constructor: (@parent, data = {}) ->
 		super @parent, data

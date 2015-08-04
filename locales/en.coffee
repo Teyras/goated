@@ -3,6 +3,7 @@ G.locale ?= {}
 
 G.locale.cs =
 	addBlock: 'Add block'
+	unknownBlock: 'Unknown block'
 	blocks:
 		'goated-text':
 			title: 'Text'

@@ -27,10 +27,16 @@ class G.Editor
 			}]
 		
 		for item in defaultBlocks
+			found = false
+			
 			for block in @blocks
 				if block.type == item.type
 					@addBlock new block(this, item.data)
+					found = true
 					break
+			
+			if not found
+				@addBlock new G.UnknownBlock(this, item.type, item.data, @tr 'unknownBlock')
 		
 		@element.closest('form').on 'submit', =>
 			@closeConfig()
@@ -134,7 +140,7 @@ class G.Editor
 			return items.index(first) - items.index(second)
 		
 		result = for block in @blockObjects when block not in @deletedBlocks
-			type: block.constructor.type
+			type: block.getType()
 			data: block.getContent()
 		
 		@element.text JSON.stringify(result)
@@ -182,6 +188,7 @@ class G.BaseBlock
 	title: 'Untitled block'
 	icon: 'block-untitled'
 	element: $ '<div>'
+	getType: -> @constructor.type
 	getContent: ->
 	constructor: (parent, data = {}) ->
 		@tr = G.Translator G.locale[parent.locale]?.blocks[@constructor.type]
