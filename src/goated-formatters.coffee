@@ -3,7 +3,7 @@ G = window.Goated ?= {}
 class G.BoldFormatter extends G.BaseFormatter
 	@icon: 'bold'
 	@srcToHtml: (src) ->
-		src.replace /\*\*([^*]+)*\*\*/gm, (match, arg1) ->
+		src.replace /\*\*([^*]+)\*\*/gm, (match, arg1) ->
 			"<b>#{arg1}</b>"
 	@htmlToSrc: (html) ->
 		html.replace(/<b>/gim, '**').replace(/<\/b>/gim, '**')
@@ -13,7 +13,7 @@ class G.BoldFormatter extends G.BaseFormatter
 class G.ItalicFormatter extends G.BaseFormatter
 	@icon: 'italic'
 	@srcToHtml: (src) ->
-		src.replace /\*([^*]+)*\*/gm, (match, arg1) ->
+		src.replace /\*([^*]+)\*/gm, (match, arg1) ->
 			"<i>#{arg1}</i>"
 	@htmlToSrc: (html) ->
 		html.replace(/<i>/gim, '*').replace(/<\/i>/gim, '*')
