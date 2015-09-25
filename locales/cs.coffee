@@ -24,6 +24,7 @@ G.locale.cs =
 				alignLeft: 'Obtékat zprava'
 				alignBlock: 'Samostatně'
 				alignRight: 'Obtékat zleva'
+				title: 'Titulek'
 				url: 'Adresa obrázku (zmenšený)'
 				full: 'Adresa obrázku (plná velikost)'
 				sameWindow: 'Otevírat zvětšený obrázek přímo'

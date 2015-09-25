@@ -24,6 +24,7 @@ G.locale.cs =
 				alignLeft: 'Float left'
 				alignBlock: 'Standalone'
 				alignRight: 'Float right'
+				title: 'Title'
 				url: 'Thumbnail address'
 				full: 'Full image address'
 				sameWindow: 'Open the full image directly'

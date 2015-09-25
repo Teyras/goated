@@ -117,6 +117,7 @@ class G.ImageBlock extends G.BaseBlock
 		super @parent, data
 		
 		@align = data.align ?= 'block'
+		@title = data.title ?= ''
 		@src = data.src ?= ''
 		@full = data.full ?= ''
 		@sameWindow = data.sameWindow ?= false
@@ -127,6 +128,7 @@ class G.ImageBlock extends G.BaseBlock
 	icon: 'block-image'
 	getContent: ->
 		align: @align
+		title: @title
 		src: @src
 		full: @full
 		sameWindow: @sameWindow
@@ -136,7 +138,10 @@ class G.ImageBlock extends G.BaseBlock
 			.append($('<option name="left">').text(@tr 'config.alignLeft'))
 			.append($('<option name="right">').text(@tr 'config.alignRight'))
 		select.val select.find("option[name='#{@align}']").text()
-		
+
+		title = $('<input type="text" name="title">')
+			.val @title
+
 		src = $('<input type="text" name="src">')
 			.val @src
 		
@@ -149,6 +154,9 @@ class G.ImageBlock extends G.BaseBlock
 		config = $('<div>').append($('<div class="config-item">')
 			.append($('<label>').text(@tr 'config.align'))
 			.append($('<div class="config-control">').append select)
+		).append($('<div class="config-item">')
+			.append($('<label>').text(@tr 'config.title'))
+			.append($('<div class="config-control">').append title)
 		).append($('<div class="config-item">')
 			.append($('<label>').text(@tr 'config.url'))
 			.append($('<div class="config-control">').append src)
@@ -181,6 +189,7 @@ class G.ImageBlock extends G.BaseBlock
 		return config
 	saveConfig: (config) ->
 		@align = config.find('select option:selected').attr('name')
+		@title = config.find('input[name="title"]').val()
 		@src = config.find('input[name="src"]').val()
 		@full = config.find('input[name="full"]').val()
 		@sameWindow = config.find('input[name="sameWindow"]').prop('checked')
