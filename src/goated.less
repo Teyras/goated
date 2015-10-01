@@ -94,6 +94,11 @@
 			.glyphicon;
 			.glyphicon-picture;
 		}
+
+		.block-album {
+			.glyphicon;
+			.glyphicon-folder-open;
+		}
 		
 		.add-block {
 			.glyphicon;
@@ -135,6 +140,23 @@
 		
 		.upload-area {
 			margin: @line-height-computed / 2 0;
+		}
+	}
+
+	&-thumbnails {
+		.row;
+		.clearfix;
+
+		&-container, .goated-placeholder {
+			.make-md-column(4);
+
+			&:nth-child(3n+1) {
+				clear: left;
+			}
+		}
+
+		&-item {
+			.thumbnail;
 		}
 	}
 }

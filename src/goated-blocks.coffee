@@ -203,3 +203,71 @@ class G.ImageBlock extends G.BaseBlock
 		else
 			@element.show()
 
+class G.AlbumBlock extends G.BaseBlock
+	constructor: (@parent, data = {}) ->
+		super @parent, data
+		@element = $ '<div class="goated-thumbnails">'
+		@images = data.images ?= new Array()
+
+		for image in @images
+			@addImage @element, image.url, image.full
+
+	@type: 'goated-album'
+	icon: 'block-album'
+
+	getContent: ->
+		images: @images
+
+	getConfig: ->
+		config = $ '<div>'
+		thumbnails =  $ '<div class="goated-thumbnails">'
+		thumbnails.sortable
+			placeholder: 'goated-placeholder'
+
+		for image in @images
+			@addImage thumbnails, image.url, image.full
+
+		config.append thumbnails
+
+		if @parent.urls.imageUpload
+			upload = $('<div>')
+				.attr(class: 'upload-area')
+				.html(@tr 'config.upload')
+			upload.fileupload(
+				url: @parent.urls.imageUpload
+				dataType: 'json'
+				autoUpload: true
+				dropZone: upload
+				disableImagePreview: true
+			).bind('fileuploaddone', (e, data) =>
+				@addImage thumbnails, data.result.thumbnail, data.result.full
+			)
+
+			config.append upload
+
+		return config
+
+	saveConfig: (config) ->
+		@images = new Array()
+		@element.empty()
+
+		for image in $(config).find('.goated-thumbnails img')
+			@images.push
+				url: $(image).attr 'src'
+				full: $(image).data 'full'
+				title: ''
+
+			@addImage @element, $(image).attr('src'), $(image).data('full')
+
+	addImage: (element, thumbnailUrl, imageUrl) ->
+		image = $ '<img>'
+		image.attr 'src', thumbnailUrl
+		image.data 'full', imageUrl
+
+		item = $ '<div class="goated-thumbnails-item">'
+		item.append image
+
+		container = $ '<div class="goated-thumbnails-container">'
+		container.append item
+
+		element.append container

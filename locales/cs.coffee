@@ -29,3 +29,7 @@ G.locale.cs =
 				full: 'Adresa obrázku (plná velikost)'
 				sameWindow: 'Otevírat zvětšený obrázek přímo'
 				upload: 'Pokud chcete nahrát soubor, přetáhněte ho sem'
+		'goated-album':
+			title: 'Album obrázků'
+			config:
+				upload: 'Pokud chcete nahrát soubory, přetáhněte je sem'

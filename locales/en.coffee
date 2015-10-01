@@ -29,3 +29,7 @@ G.locale.cs =
 				full: 'Full image address'
 				sameWindow: 'Open the full image directly'
 				upload: 'Drag and drop a file to upload it'
+		'goated-album':
+			title: 'Image album'
+			config:
+				upload: 'Drag and drop files to upload them'
