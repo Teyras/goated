@@ -33,3 +33,4 @@ G.locale.cs =
 			title: 'Album obrázků'
 			config:
 				upload: 'Pokud chcete nahrát soubory, přetáhněte je sem'
+				title: 'Popisek'

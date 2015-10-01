@@ -208,9 +208,16 @@ class G.AlbumBlock extends G.BaseBlock
 		super @parent, data
 		@element = $ '<div class="goated-thumbnails">'
 		@images = data.images ?= new Array()
+		@setupElement(data)
+
+	setupElement: ->
+		@element.empty()
 
 		for image in @images
-			@addImage @element, image.url, image.full
+			thumbnail = @addImage @element, image.url, image.full
+			caption = $ '<div class="goated-thumbnails-title">'
+			caption.text image.title
+			thumbnail.append caption
 
 	@type: 'goated-album'
 	icon: 'block-album'
@@ -225,7 +232,18 @@ class G.AlbumBlock extends G.BaseBlock
 			placeholder: 'goated-placeholder'
 
 		for image in @images
-			@addImage thumbnails, image.url, image.full
+			thumbnail = @addImage thumbnails, image.url, image.full
+			caption = $ '<div class="goated-thumbnails-title-edit">'
+			input = $ "<input>"
+			input.attr 'type', 'text'
+			input.attr 'placeholder', "#{@tr 'config.title'}"
+			input.attr 'name', 'title'
+
+			if image.title
+				input.val(image.title)
+
+			caption.append input
+			thumbnail.append caption
 
 		config.append thumbnails
 
@@ -249,15 +267,14 @@ class G.AlbumBlock extends G.BaseBlock
 
 	saveConfig: (config) ->
 		@images = new Array()
-		@element.empty()
 
 		for image in $(config).find('.goated-thumbnails img')
 			@images.push
 				url: $(image).attr 'src'
 				full: $(image).data 'full'
-				title: ''
+				title: $(image).closest('.goated-thumbnails-item').find('input[name="title"]').val()
 
-			@addImage @element, $(image).attr('src'), $(image).data('full')
+		@setupElement()
 
 	addImage: (element, thumbnailUrl, imageUrl) ->
 		image = $ '<img>'
@@ -271,3 +288,4 @@ class G.AlbumBlock extends G.BaseBlock
 		container.append item
 
 		element.append container
+		return item

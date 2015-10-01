@@ -33,3 +33,4 @@ G.locale.cs =
 			title: 'Image album'
 			config:
 				upload: 'Drag and drop files to upload them'
+				title: 'Title'
