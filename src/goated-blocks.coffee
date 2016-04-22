@@ -203,6 +203,64 @@ class G.ImageBlock extends G.BaseBlock
 		else
 			@element.show()
 
+class G.FileBlock extends G.BaseBlock
+	constructor: (@parent, data = {}) ->
+		super @parent, data
+
+		@title = data.title ?= ''
+		@url = data.url ?= ''
+
+		@element = $('<span>')
+		@setupElement()
+	@type: 'goated-file'
+	icon: 'block-file'
+	getContent: ->
+		title: @title
+		url: @url
+	getConfig: ->
+		title = $('<input type="text" name="title">')
+			.val @title
+
+		url = $('<input type="text" name="url">')
+			.val @url
+
+		config = $('<div>').append($('<div class="config-item">')
+			.append($('<label>').text(@tr 'config.title'))
+			.append($('<div class="config-control">').append title)
+		).append($('<div class="config-item">')
+			.append($('<label>').text(@tr 'config.url'))
+			.append($('<div class="config-control">').append url)
+		)
+
+		if @parent.urls.fileUpload
+			upload = $('<div>')
+				.attr(class: 'upload-area')
+				.html(@tr 'config.upload')
+			upload.fileupload(
+				url: @parent.urls.fileUpload
+				dataType: 'json'
+				autoUpload: true
+				dropZone: upload
+				disableImagePreview: true
+			).bind('fileuploaddone', (e, data) =>
+				config.find('input[name="url"]').val(data.result.url)
+				@parent.closeConfig()
+			)
+
+			config.append upload
+
+		return config
+	saveConfig: (config) ->
+		@title = config.find('input[name="title"]').val()
+		@url = config.find('input[name="url"]').val()
+
+		@setupElement()
+	setupElement: ->
+		if @title
+			@element.html("#{@title} (#{@url})")
+		else
+			@element.html(@url)
+
 class G.AlbumBlock extends G.BaseBlock
 	constructor: (@parent, data = {}) ->
 		super @parent, data
