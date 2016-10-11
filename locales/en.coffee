@@ -1,9 +1,14 @@
 G = window.Goated ?= {}
 G.locale ?= {}
 
-G.locale.cs =
+G.locale.en =
 	addBlock: 'Add block'
 	unknownBlock: 'Unknown block'
+	format:
+		bold: "Bold"
+		italic: "Italic"
+		link: "Link"
+		linkPlaceholder: "Enter or paste the address..."
 	blocks:
 		'goated-text':
 			title: 'Text'

@@ -10,20 +10,22 @@ class G.UnknownBlock extends G.BaseBlock
 class G.TextBlock extends G.BaseBlock
 	constructor: (@parent, data = {}) ->
 		super @parent, data
-		
-		if !data.content
-			data.content = @tr 'placeholder'
-		
-		content = @parent.srcToHtml(data.content)
-		
-		@editor = $('<div contenteditable="true">')
-			.html(content)
-		
-		@element = @parent.formatBar.bind @editor
+
+		data.content ?= ""
+		content = @parent.srcToHtml(data.content, true)
+
+		@editor = $('<div>')
+
+		@editor.on "goated.editorinsert", =>
+			@parent.makeRichTextEditor(@editor, @tr 'placeholder')
+
+		@editor.html(content)
+
+		@element = @editor
 	@type: 'goated-text'
 	icon: 'block-text'
 	getContent: ->
-		content: @parent.htmlToSrc(@editor.html())
+		content: @parent.htmlToSrc(@parent.getRichTextEditorContent(@editor))
 
 class G.HeadingBlock extends G.BaseBlock
 	constructor: (@parent, data = {}) ->
@@ -31,12 +33,12 @@ class G.HeadingBlock extends G.BaseBlock
 		
 		data.content ?= @tr 'placeholder'
 		@level = data.level ?= 1
-		@element = $("<h#{@level} contenteditable='true'>").html(data.content)
+		@element = $("<h#{@level} contenteditable='true'>").text(data.content)
 	@type: 'goated-heading'
 	icon: 'block-heading'
 	getContent: ->
 		level: @level
-		content: @parent.clearHtml(@element.html())
+		content: @element.text()
 	getConfig: ->
 		select = $('<select>')
 			.append($('<option name=1>').text(1))
@@ -51,7 +53,7 @@ class G.HeadingBlock extends G.BaseBlock
 			)
 	saveConfig: (config) ->
 		@level = config.find('select').val()
-		@element = $("<h#{@level} contenteditable='true'>").html(@element.html())
+		@element = $("<h#{@level} contenteditable='true'>").text(@element.text())
 
 class G.ListBlock extends G.BaseBlock
 	constructor: (@parent, data = {}) ->
@@ -62,23 +64,58 @@ class G.ListBlock extends G.BaseBlock
 		@element = if @ordered then $('<ol>') else $('<ul>')
 		for item in content
 			@element.append(@makeItem(@parent.srcToHtml(item)))
+
+		@element.on "goated.editorinsert", =>
+			for item in @element.children()
+				$(item).trigger("goated-list.itemattach", {})
 	@type: 'goated-list'
 	icon: 'block-list'
 	getContent: ->
 		ordered: @ordered
 		content: for item in @element.find('li') when $(item).html()
-			@parent.htmlToSrc($(item).html())
+			@parent.htmlToSrc($(item))
 	makeItem: (content) ->
-		item = $('<li contenteditable="true">')
-			.html(content)
+		item = $('<li>').html(content)
+
+		item.on "goated-list.itemattach", =>
+			medium = @parent.makeRichTextEditor(item, "", true)
+
+			medium.subscribe 'editableKeydown', (e) =>
+				list = if @ordered then 'ol' else 'ul'
+
+				if e.keyCode == 13 # Enter
+					e.preventDefault()
+					if $(e.target).html()
+						item = @makeItem('')
+						item.insertAfter $(e.target).closest('li')
+						item.trigger("goated-list.itemattach", {})
+						item.focus()
+				if e.keyCode == 8 # Backspace
+					if not $(e.target).text()
+						e.preventDefault()
+
+						prev = null
+						for item in $(e.target).closest(list).find('li')
+							if $(item).is($(e.target))
+								break
+							prev = $(item)
+
+						if prev
+							prev.focus()
+							prevMedium = MediumEditor.getEditorFromElement(prev.get(0))
+							prevMedium.selectAllContents()
+							MediumEditor.selection.clearSelection(document, false)
+							$(e.target).remove()
+		###
 			.on 'keydown', (e) =>
 				list = if @ordered then 'ol' else 'ul'
 				
 				if e.keyCode == 13 # Enter
 					e.preventDefault()
-					@makeItem('')
-						.insertAfter $(e.target).parent()
-						.find('li').focus()
+					if $(e.target).html()
+						item = @makeItem('')
+						item.insertAfter $(e.target).closest('li')
+						item.focus()
 				if e.keyCode == 8 # Backspace
 					if not $(e.target).text()
 						e.preventDefault()
@@ -92,8 +129,9 @@ class G.ListBlock extends G.BaseBlock
 						if prev
 							prev.focus()
 							$(e.target).remove()
+		###
 		
-		return @parent.formatBar.bind item
+		return item
 	getConfig: ->
 		checkbox = $('<input type="checkbox" class="checkbox">').prop('checked', @ordered)
 		
@@ -107,10 +145,11 @@ class G.ListBlock extends G.BaseBlock
 		@ordered = config.find('input').prop('checked')
 		
 		list = if @ordered then $('<ol>') else $('<ul>')
-		for item in @element.find('li')
-			list.append @makeItem($(item).html())
-		
+		@element.contents().detach().appendTo(list)
+		@element.remove()
+
 		@element = list
+
 
 class G.ImageBlock extends G.BaseBlock
 	constructor: (@parent, data = {}) ->

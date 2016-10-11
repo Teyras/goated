@@ -4,6 +4,11 @@ G.locale ?= {}
 G.locale.cs =
 	addBlock: 'Přidat blok'
 	unknownBlock: 'Neznámý blok'
+	format:
+		bold: "Tučně"
+		italic: "Kurzíva"
+		link: "Odkaz"
+		linkPlaceholder: "Zadejte nebo vložte adresu..."
 	blocks:
 		'goated-text':
 			title: 'Text'
