@@ -216,6 +216,8 @@ class G.Editor
 		# Remove unwanted attributes
 		for node in element.find('b, i, a, p, br')
 			for attr in node.attributes
+				if !attr
+					continue
 				if $(node).is("a") and attr.name.toLowerCase() == "href"
 					continue
 				$(node).removeAttr(attr.name)
@@ -258,7 +260,6 @@ class G.Editor
 		src = src.replace /\u0012/g, "_"
 
 	tightenTags: (text) ->
-		console.log JSON.stringify(text)
 		esc = (str) -> str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")
 
 		tags = [
